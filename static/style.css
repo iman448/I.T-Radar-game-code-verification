@@ -1,0 +1,108 @@
+body {
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+    background: #111;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    min-height: 100vh;
+}
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+.logo-img {
+    width: 48px;
+    height: 48px;
+    background: #ffffff00;
+    border-radius: 12px;
+    padding: 4px;
+}
+.container {
+    max-width: 420px;
+    margin: 48px auto;
+    background: #181818;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #0008;
+    padding: 36px 32px 28px 32px;
+}
+h2, h3 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 24px;
+}
+label {
+    display: block;
+    margin-top: 18px;
+    margin-bottom: 6px;
+    color: #eee;
+    font-size: 1.08em;
+}
+input[type="email"], input[type="number"] {
+    width: 96%;
+    display: block;
+    margin: 0 auto 12px auto;
+    padding: 12px;
+    direction: ltr;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.08em;
+    background: #222;
+    color: #fff;
+    outline: none;
+    box-shadow: 0 1px 2px #0003;
+}
+input[type="email"]:focus, input[type="number"]:focus {
+    background: #222;
+    border: 1px solid #27ae60;
+}
+#mainBtn {
+    width: 100%;
+    padding: 18px 0;
+    margin: 28px 0 16px 0;
+    font-size: 1.25em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #27ae60 0%, #219150 100%);
+    color: #fff;
+    font-weight: bold;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px #0005;
+    letter-spacing: 1px;
+}
+#mainBtn.stop {
+    background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+}
+#mainBtn:active {
+    box-shadow: 0 1px 2px #0008;
+}
+.status-list {
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 8px;
+    height: 220px;
+    overflow-y: auto;
+    margin-top: 18px;
+    padding: 10px;
+    font-size: 1em;
+    direction: ltr;
+    text-align: left;
+    color: #fff;
+}
+.status-list div {
+    margin-bottom: 6px;
+    font-family: monospace;
+}
+::-webkit-scrollbar {
+    width: 8px;
+    background: #181818;
+}
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 8px;
+}

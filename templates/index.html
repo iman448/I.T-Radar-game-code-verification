@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>تایید کد رادار گیم</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/svg+xml" href="https://radar.game/assets/logo-CulXQHyn.svg">
+</head>
+<body>
+    <div class="container">
+      <div class="header-flex">
+        <img src="https://radar.game/assets/logo-CulXQHyn.svg" alt="Radar Game Logo" class="logo-img">
+        <h2>تایید کد رادار گیم</h2>
+      </div>
+        <form id="sendForm">
+            <label for="email">ایمیل:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="threads">تعداد Thread:</label>
+            <input type="number" id="threads" name="threads" min="1" value="20">
+
+            <button type="submit" id="mainBtn" class="start">شروع</button>
+        </form>
+        <h3>وضعیت ارسال:</h3>
+        <div id="statusList" class="status-list"></div>
+    </div>
+    <script>
+    const form = document.getElementById('sendForm');
+    const mainBtn = document.getElementById('mainBtn');
+    const statusList = document.getElementById('statusList');
+    let polling = null;
+    let running = false;
+
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        if (!running) {
+            mainBtn.disabled = true;
+            fetch('/start', {
+                method: 'POST',
+                body: new FormData(form)
+            }).then(res => res.json()).then(data => {
+                if (data.status === "started") {
+                    running = true;
+                    mainBtn.textContent = "توقف";
+                    mainBtn.classList.remove("start");
+                    mainBtn.classList.add("stop");
+                    mainBtn.disabled = false;
+                    startPolling();
+                }
+            });
+        } else {
+            mainBtn.disabled = true;
+            fetch('/stop', {method: 'GET'})
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "stopped") {
+                        running = false;
+                        mainBtn.textContent = "شروع";
+                        mainBtn.classList.remove("stop");
+                        mainBtn.classList.add("start");
+                        mainBtn.disabled = false;
+                        stopPolling();
+                    }
+                });
+        }
+    };
+
+    function startPolling() {
+        if (polling) return;
+        polling = setInterval(() => {
+            fetch('/status')
+                .then(res => res.json())
+                .then(data => {
+                    statusList.innerHTML = "";
+                    (data.messages || []).forEach(msg => {
+                        const div = document.createElement('div');
+                        div.textContent = `[${msg.timestamp}] ${msg.message}`;
+                        div.style.color = msg.color;
+                        statusList.appendChild(div);
+                        // اگر پیام توقف آمد، دکمه را به حالت شروع برگردان
+                        if (msg.message.includes("Stopped by user.") || msg.message.includes("username is not found") || msg.message.includes("You have not entered your email correctly") || msg.message.includes("Code confirmed successfully") || msg.message.includes("User is already confirmed")) {
+                            running = false;
+                            mainBtn.textContent = "شروع";
+                            mainBtn.classList.remove("stop");
+                            mainBtn.classList.add("start");
+                            mainBtn.disabled = false;
+                            stopPolling();
+                        }
+                    });
+                    statusList.scrollTop = statusList.scrollHeight;
+                });
+        }, 1000);
+    }
+
+    function stopPolling() {
+        clearInterval(polling);
+        polling = null;
+    }
+</script>
+</body>
+</html>
