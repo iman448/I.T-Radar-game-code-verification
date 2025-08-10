@@ -78,7 +78,7 @@
                         div.style.color = msg.color;
                         statusList.appendChild(div);
                         // اگر پیام توقف آمد، دکمه را به حالت شروع برگردان
-                        if (msg.message.includes("Stopped by user.") || msg.message.includes("username is not found") || msg.message.includes("You have not entered your email correctly") || msg.message.includes("Code confirmed successfully") || msg.message.includes("User is already confirmed")) {
+                        if (msg.message.includes("Stopped by user.") || msg.message.includes("Username is not found!") || msg.message.includes("You have not entered your email correctly") || msg.message.includes("Code confirmed successfully") || msg.message.includes("User is already confirmed")) {
                             running = false;
                             mainBtn.textContent = "شروع";
                             mainBtn.classList.remove("stop");
@@ -98,4 +98,5 @@
     }
 </script>
 </body>
+
 </html>
